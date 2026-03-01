@@ -22,5 +22,20 @@ contract CallerContract{
         );
         require(success,"Call failed");
     }
+    function callGetValue(address target) external view returns (uint256){
+        (bool success,bytes memory returnData) = target.staticcall(
+            abi.encodeWithSignature("getValue()")
+        );
+        require(success,"Call failed");
+        uint256 value = abi.decode(returnData, (uint256));
+        return value;
+    }
+
+    function sendEther(address payable recipient) external payable {
+        (bool success,) = recipient.call{value:msg.value}("");
+        require(success,"ether transfer faild");
+    }
     
 }
+
+
