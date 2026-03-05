@@ -21,7 +21,7 @@ contract StaticCallDemo{
         uint256 value = abi.decode(returnData, (uint256));
         return value;
     }
-    function unSafeSetValue(address target,uint256 newValue) external {
+    function unSafeSetValue(address target,uint256 newValue) external view {
         (bool success,) = target.staticcall(abi.encodeWithSignature("setValue(uint256", newValue));
          // success会是false，因为staticcall不允许修改状态
         require(success,"staticcall failed: cannot modify state");
